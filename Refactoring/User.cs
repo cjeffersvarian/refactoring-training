@@ -16,5 +16,7 @@ namespace Refactoring
         public string Pwd;
         [JsonProperty("Balance")]
         public double Bal;
+
+        public bool isValid;
     }
 }

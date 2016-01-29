@@ -89,7 +89,7 @@ namespace UnitTestProject
                     Tusc.Start(users, products);
                 }
 
-                Assert.IsTrue(writer.ToString().Contains("You entered an invalid user"));
+                Assert.IsTrue(writer.ToString().Contains("You entered an invalid username/password."));
             }
         }
 
@@ -123,7 +123,7 @@ namespace UnitTestProject
                     Tusc.Start(users, products);
                 }
 
-                Assert.IsTrue(writer.ToString().Contains("You entered an invalid password"));
+                Assert.IsTrue(writer.ToString().Contains("You entered an invalid username/password."));
             }
         }
 
