@@ -57,16 +57,20 @@ namespace Refactoring
 
                     if (validateQuantity(quantity) && checkBalance(quantity, user, selection) && checkQuantity(quantity, selection))
                     {
+                        processTransaction(quantity, selection, user);
                         changesMade = true;
-                        user.Bal -= products[selection].Price * quantity;
-                        products[selection].Qty = products[selection].Qty - quantity;
-
-                        displayPurchaseConfirmation(quantity, user, selection);
                     }
                 }
             } while (selection != EXIT_CODE);
 
             return changesMade;
+        }
+
+        private static void processTransaction(int quantity, int selection, User user)
+        {
+            user.Bal -= products[selection].Price * quantity;
+            products[selection].Qty = products[selection].Qty - quantity;
+            displayPurchaseConfirmation(quantity, user, selection);
         }
 
         private static User loginProcess()
