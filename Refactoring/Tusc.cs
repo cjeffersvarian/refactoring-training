@@ -36,21 +36,7 @@ namespace Refactoring
                 {
                     displayProducts();
                     selection = readSelection();
-
-                    if (selection != EXIT_CODE)
-                    {
-                        displayOrderConfirmation(selection, user);
-                        int quantity = readQty();
-
-                        if(validateQuantity(quantity) && checkBalance(quantity, user, selection) && checkQuantity(quantity, selection)){
-                            changesMade = true;
-                            user.Bal -= products[selection].Price * quantity;
-                            products[selection].Qty = products[selection].Qty - quantity;
-
-                            displayPurchaseConfirmation(quantity, user, selection);
-                        }
-                    }
-
+                    changesMade = processSelection(selection, user);
                 } while (selection != EXIT_CODE);
 
                 if (changesMade)
@@ -63,6 +49,26 @@ namespace Refactoring
             Console.WriteLine();
             Console.WriteLine("Press Enter key to exit");
             Console.ReadLine();
+        }
+
+        private static bool processSelection(int selection, User user)
+        {
+            bool changesMade = false;
+            if (selection != EXIT_CODE)
+            {
+                displayOrderConfirmation(selection, user);
+                int quantity = readQty();
+
+                if (validateQuantity(quantity) && checkBalance(quantity, user, selection) && checkQuantity(quantity, selection))
+                {
+                    changesMade = true;
+                    user.Bal -= products[selection].Price * quantity;
+                    products[selection].Qty = products[selection].Qty - quantity;
+
+                    displayPurchaseConfirmation(quantity, user, selection);
+                }
+            }
+            return changesMade;
         }
 
         private static User loginProcess()
