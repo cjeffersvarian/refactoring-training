@@ -29,16 +29,7 @@ namespace Refactoring
                 displayLoginSuccess(user);
                 displayBalance(user);
 
-                // Show product list
-                int selection;
-                bool changesMade = false;
-                do
-                {
-                    displayProducts();
-                    selection = readSelection();
-                    changesMade = processSelection(selection, user);
-                } while (selection != EXIT_CODE);
-
+                bool changesMade = processSession(user);
                 if (changesMade)
                 {
                     updateBalance(user);
@@ -51,23 +42,30 @@ namespace Refactoring
             Console.ReadLine();
         }
 
-        private static bool processSelection(int selection, User user)
+        private static bool processSession(User user)
         {
+            int selection;
             bool changesMade = false;
-            if (selection != EXIT_CODE)
+            do
             {
-                displayOrderConfirmation(selection, user);
-                int quantity = readQty();
-
-                if (validateQuantity(quantity) && checkBalance(quantity, user, selection) && checkQuantity(quantity, selection))
+                displayProducts();
+                selection = readSelection();
+                if (selection != EXIT_CODE)
                 {
-                    changesMade = true;
-                    user.Bal -= products[selection].Price * quantity;
-                    products[selection].Qty = products[selection].Qty - quantity;
+                    displayOrderConfirmation(selection, user);
+                    int quantity = readQty();
 
-                    displayPurchaseConfirmation(quantity, user, selection);
+                    if (validateQuantity(quantity) && checkBalance(quantity, user, selection) && checkQuantity(quantity, selection))
+                    {
+                        changesMade = true;
+                        user.Bal -= products[selection].Price * quantity;
+                        products[selection].Qty = products[selection].Qty - quantity;
+
+                        displayPurchaseConfirmation(quantity, user, selection);
+                    }
                 }
-            }
+            } while (selection != EXIT_CODE);
+
             return changesMade;
         }
 
